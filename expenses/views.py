@@ -10,7 +10,8 @@ from userpreferences.models import UserPreference
 import datetime
 import requests
 import nltk
-nltk.data.path.append(r"C:\Users\Sujal\AppData\Roaming\nltk_data")  # Explicitly set path
+nltk.data.path.append("/opt/render/nltk_data")    # Explicitly set path
+nltk.download("stopwords", download_dir="/opt/render/nltk_data")
 
 from nltk.corpus import stopwords
 stop_words = set(stopwords.words('english'))  # This should now work
