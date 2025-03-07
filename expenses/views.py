@@ -10,6 +10,8 @@ from userpreferences.models import UserPreference
 import datetime
 import requests
 import nltk
+import os
+
 # Ensure the directory exists
 NLTK_DATA_DIR = "/opt/render/nltk_data"
 os.makedirs(NLTK_DATA_DIR, exist_ok=True)
