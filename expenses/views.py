@@ -10,10 +10,16 @@ from userpreferences.models import UserPreference
 import datetime
 import requests
 import nltk
-nltk.data.path.append("/opt/render/nltk_data")    # Explicitly set path
-nltk.download("stopwords", download_dir="/opt/render/nltk_data")
-nltk.download("punkt", download_dir="/opt/render/nltk_data")
+# Ensure the directory exists
+NLTK_DATA_DIR = "/opt/render/nltk_data"
+os.makedirs(NLTK_DATA_DIR, exist_ok=True)
 
+# Add the directory to nltk's data path
+nltk.data.path.append(NLTK_DATA_DIR)
+
+# Force the download of required NLTK resources at runtime
+nltk.download("punkt", download_dir=NLTK_DATA_DIR)
+nltk.download("stopwords", download_dir=NLTK_DATA_DIR)
 from nltk.corpus import stopwords
 stop_words = set(stopwords.words('english'))  # This should now work
 
