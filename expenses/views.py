@@ -11,20 +11,6 @@ import datetime
 import requests
 import nltk
 import os
-
-# Ensure the directory exists
-NLTK_DATA_DIR = "/opt/render/nltk_data"
-os.makedirs(NLTK_DATA_DIR, exist_ok=True)
-
-# Add the directory to nltk's data path
-nltk.data.path.append(NLTK_DATA_DIR)
-
-# Force the download of required NLTK resources at runtime
-nltk.download("punkt", download_dir=NLTK_DATA_DIR)
-nltk.download("stopwords", download_dir=NLTK_DATA_DIR)
-from nltk.corpus import stopwords
-stop_words = set(stopwords.words('english'))  # This should now work
-
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from django.contrib.sessions.models import Session
@@ -45,9 +31,21 @@ from django.core.mail import send_mail
 from django.conf import settings
 data = pd.read_csv('dataset.csv')
 
-# Preprocessing
-stop_words = set(stopwords.words('english'))
+# Define a local directory for NLTK data inside your project
+NLTK_DATA_DIR = os.path.join(os.path.dirname(__file__), "nltk_data")
+os.makedirs(NLTK_DATA_DIR, exist_ok=True)  # Ensure directory exists
 
+# Add the directory to NLTK's path
+nltk.data.path.append(NLTK_DATA_DIR)
+
+# Download necessary resources correctly
+nltk.download("punkt", download_dir=NLTK_DATA_DIR)  # Sentence tokenizer
+nltk.download("stopwords", download_dir=NLTK_DATA_DIR)  # Stopwords
+
+# Now, load the correct resources
+from nltk.corpus import stopwords
+
+stop_words = set(stopwords.words("english"))  # Load stopwords only once
 def preprocess_text(text):
     tokens = word_tokenize(text.lower())
     tokens = [t for t in tokens if t.isalnum() and t not in stop_words]
